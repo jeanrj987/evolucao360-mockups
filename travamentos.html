@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup - Contrato de Comercialização / Travamentos</title>
+<style>
+  :root {
+    --blue-900: #0a3d7a;
+    --blue-700: #0e5aa7;
+    --blue-600: #1668bd;
+    --blue-100: #e3edf8;
+    --bg: #eef2f7;
+    --card: #ffffff;
+    --line: #cfd9e5;
+    --text: #1d2b3a;
+    --muted: #5d6f84;
+    --ok: #2e9e4f;
+    --track: #dde6f0;
+    --manual: #e0a63a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text);
+    background: #c9d1dc;
+    padding: 24px 16px 40px;
+  }
+  .toolbar {
+    max-width: 1240px; margin: 0 auto 12px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    color: #3a4a5c; font-size: 12px;
+  }
+  .toolbar .btns { display: flex; gap: 8px; }
+  .toolbar button {
+    font: inherit; padding: 6px 12px; border: 1px solid #8fa1b6; border-radius: 4px;
+    background: #fff; cursor: pointer;
+  }
+  .toolbar button:hover { background: #f3f7fb; }
+
+  .window {
+    max-width: 1240px; margin: 0 auto; background: var(--bg);
+    border: 1px solid #8fa1b6; border-radius: 6px; overflow: hidden;
+    box-shadow: 0 12px 36px rgba(20, 40, 70, .28);
+  }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+    background: #fff; border-bottom: 1px solid var(--line);
+    font-size: 13px; color: #5a5f88;
+  }
+  .titlebar .logo {
+    width: 18px; height: 18px; border-radius: 3px; background: var(--blue-900);
+    display: inline-grid; place-items: center; color: #fff; font-size: 10px; font-weight: 700;
+  }
+  .titlebar .x { margin-left: auto; color: #6b7a8c; font-size: 16px; }
+
+  .tabs { display: flex; background: #fff; border-bottom: 1px solid var(--line); padding: 6px 8px 0; gap: 2px; overflow-x: auto; }
+  .tab {
+    padding: 7px 12px; border: 1px solid transparent; border-bottom: none;
+    border-radius: 4px 4px 0 0; color: #2b3a4b; white-space: nowrap;
+  }
+  .tab.active {
+    background: var(--blue-700); color: #fff; font-weight: 600;
+    border-top: 3px solid #29a0ff;
+  }
+  .tab.sair { margin-left: auto; }
+
+  .body { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+  @media (max-width: 900px) { .body { grid-template-columns: 1fr; } }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .card-head {
+    display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+    background: linear-gradient(#0f5fb0, #0a4a90); color: #fff; font-weight: 600; font-size: 13px;
+  }
+  .card-head .ico { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 1.6; }
+  .card-head .chev { margin-left: auto; opacity: .85; }
+  .card-body { padding: 10px; }
+
+  .col { display: flex; flex-direction: column; gap: 12px; }
+
+  .field { display: grid; grid-template-columns: 78px 1fr; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { text-align: right; color: var(--muted); }
+  .row2 { display: grid; grid-template-columns: 62px 1fr; gap: 6px; }
+  input, select {
+    width: 100%; font: inherit; padding: 5px 7px; border: 1px solid #b7c4d3;
+    border-radius: 3px; background: #fff; color: var(--text); min-height: 26px;
+  }
+  input:focus, select:focus { outline: 2px solid #29a0ff55; border-color: var(--blue-600); }
+  input.num { text-align: right; }
+  /* valor digitado à mão no lugar do calculado */
+  input.ov { border-color: var(--manual); background: #fff8e8; }
+  .inline { display: flex; gap: 6px; align-items: center; }
+  .inline .unit { color: var(--muted); white-space: nowrap; }
+
+  /* bloco de componente */
+  .comp { display: grid; grid-template-columns: 1fr 96px 120px; gap: 10px; align-items: center; }
+  .comp .lines .l { display: grid; grid-template-columns: 116px 1fr; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .comp .lines .l:last-child { margin-bottom: 0; }
+  .comp .lines label { text-align: right; color: var(--muted); }
+  .donut {
+    --p: 0; width: 84px; height: 84px; border-radius: 50%; position: relative;
+    background: conic-gradient(var(--blue-600) calc(var(--p) * 1%), var(--track) 0);
+    display: grid; place-items: center; justify-self: center;
+  }
+  .donut::before { content: ""; position: absolute; inset: 11px; background: #fff; border-radius: 50%; }
+  .donut span { position: relative; font-weight: 700; font-size: 14px; color: var(--text); }
+  .donut.full { background: conic-gradient(var(--ok) 100%, var(--track) 0); }
+  .stats { font-size: 11.5px; line-height: 1.75; }
+  .stats b { color: var(--blue-700); font-weight: 600; }
+  .stats .k { color: var(--muted); display: inline-block; min-width: 56px; }
+
+  /* direita */
+  .media { display: grid; grid-template-columns: 1fr 1fr 170px; gap: 8px 10px; }
+  .media .field { grid-template-columns: 56px 1fr; margin: 0; }
+  .estimado {
+    grid-column: 3; grid-row: 1 / span 2; background: var(--blue-100); border: 1px solid #c2d5ea;
+    border-radius: 4px; display: grid; place-items: center; text-align: center; padding: 8px;
+  }
+  .estimado small { display: block; color: var(--muted); margin-bottom: 4px; }
+  .estimado .inline { justify-content: center; font-weight: 700; color: var(--blue-900); }
+  .estimado input { font-size: 15px; font-weight: 700; color: var(--blue-900); padding: 3px 5px; min-height: 28px; }
+  .estimado svg { width: 26px; height: 26px; stroke: var(--blue-700); fill: none; stroke-width: 1.5; margin-bottom: 4px; }
+
+  .grid-card { flex: 1; display: flex; flex-direction: column; min-height: 340px; }
+  .grid-card .card-body { flex: 1; padding: 0; display: flex; flex-direction: column; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left; padding: 8px 10px; font-weight: 600; color: var(--blue-900);
+    background: #f2f6fb; border-bottom: 1px solid var(--line);
+  }
+  thead th.r, tbody td.r { text-align: right; }
+  tbody td { padding: 4px 6px; border-bottom: 1px solid #edf1f6; }
+  tbody tr.sel { background: #dcebfa; }
+  tbody td input, tbody td select { padding: 3px 6px; min-height: 24px; border-color: transparent; background: transparent; }
+  tbody tr:hover td input, tbody tr:hover td select { border-color: #b7c4d3; background: #fff; }
+  tbody td input:focus, tbody td select:focus { border-color: var(--blue-600); background: #fff; }
+  tbody td input.vazio { border-color: var(--manual); background: #fff8e8; }
+  tbody td.d input { width: 88px; } tbody td.h input { width: 56px; } tbody td.u input { width: 108px; }
+  .hint { padding: 6px 10px; color: var(--muted); font-size: 11px; border-top: 1px solid #edf1f6; }
+  .empty { flex: 1; display: grid; place-items: center; text-align: center; color: var(--muted); padding: 30px; }
+  .empty svg { width: 46px; height: 46px; stroke: #8da3bb; fill: none; stroke-width: 1.3; margin-bottom: 8px; }
+  .filter { margin-left: auto; width: 24px; height: 22px; border-radius: 3px; background: rgba(255,255,255,.18); display: grid; place-items: center; }
+  .filter svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 1.8; }
+
+  .actions { display: flex; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; font: inherit; font-weight: 600;
+    border-radius: 4px; border: 1px solid #aebccc; background: #f4f7fb; color: var(--text); cursor: pointer;
+  }
+  .btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+  .btn.primary { background: var(--blue-700); border-color: var(--blue-900); color: #fff; }
+  .btn.primary:hover { background: var(--blue-600); }
+  .btn:hover { background: #e8eef6; }
+
+  .status {
+    display: flex; gap: 28px; align-items: center; padding: 7px 12px; background: #fff;
+    border-top: 1px solid var(--line); color: var(--muted);
+  }
+  .status b { color: var(--text); }
+  .status .grow { margin-left: auto; }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--ok); margin-right: 6px; }
+  .legend { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border: 1px solid var(--manual); background: #fff8e8; border-radius: 2px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span>Mockup da aba <b>8 - Travamentos</b> · todos os campos editáveis
+    <span class="legend"><i></i> = valor manual (apague para voltar ao automático)</span></span>
+  <div class="btns">
+    <button id="auto" type="button">Voltar tudo ao automático</button>
+    <button id="demo" type="button">Ver com dados de exemplo</button>
+  </div>
+</div>
+
+<div class="window">
+  <div class="titlebar">
+    <span class="logo">C</span>
+    <span>Contrato de Comercialização</span>
+    <input id="h-titulo" value="[Comercialização] 001 - GILMAR TAFFAREL E OUTRA"
+      style="width:340px;border-color:transparent;background:transparent;color:#7b86b8;margin-left:12px">
+    <span class="x">✕</span>
+  </div>
+
+  <div class="tabs">
+    <div class="tab"><u>P</u>rincipal</div>
+    <div class="tab"><u>0</u> - Entidade</div>
+    <div class="tab"><u>1</u> - Produto</div>
+    <div class="tab"><u>2</u> - Classificação</div>
+    <div class="tab"><u>3</u> - Fiscal</div>
+    <div class="tab"><u>4</u> - Logística</div>
+    <div class="tab"><u>5</u> - Custos</div>
+    <div class="tab"><u>6</u> - Financeiro</div>
+    <div class="tab"><u>7</u> - Comissão</div>
+    <div class="tab active"><u>8</u> - Travamentos</div>
+    <div class="tab"><u>9</u> - Aditivos</div>
+    <div class="tab sair"><u>S</u>air</div>
+  </div>
+
+  <div class="body">
+    <!-- COLUNA ESQUERDA -->
+    <div class="col">
+      <div class="card">
+        <div class="card-head">
+          <svg class="ico" viewBox="0 0 20 20"><rect x="3" y="2" width="14" height="16" rx="2"/><path d="M6 7h8M6 10h8M6 13h5"/></svg>
+          Informações do Produto <span class="chev">⌃</span>
+        </div>
+        <div class="card-body">
+          <div class="field"><label>Modalidade</label>
+            <div class="row2"><input value="00001"><input value="Componente" style="font-weight:600"></div></div>
+          <div class="field"><label>Produto</label>
+            <div class="row2"><input value="00002"><input value="Soja em Grãos"></div></div>
+          <div class="field"><label>Data Limite</label>
+            <div class="row2" style="grid-template-columns:150px 1fr;gap:12px">
+              <input value="06/03/2025">
+              <div class="inline"><span class="unit">Frete/Logística</span>
+                <select style="max-width:130px"><option>CIF / FOB</option><option>CIF</option><option>FOB</option></select></div>
+            </div></div>
+        </div>
+      </div>
+
+      <div id="blocks" class="col"></div>
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col">
+      <div class="card">
+        <div class="card-head">
+          <svg class="ico" viewBox="0 0 20 20"><path d="M3 16V8M8 16V4M13 16v-6M18 16V6"/></svg>
+          Média Contrato Fixação
+        </div>
+        <div class="card-body">
+          <div class="media">
+            <div class="field"><label>Chicago</label><div class="inline"><input class="num" data-ov="mc:chicago"><span class="unit">US$/t</span></div></div>
+            <div class="estimado">
+              <div>
+                <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M16 12h0M8 16h2M12 16h2"/></svg>
+                <small>Preço Estimado</small>
+                <div class="inline"><span>R$</span><input class="num" data-ov="preco"><span>/t</span></div>
+              </div>
+            </div>
+            <div class="field"><label>Câmbio</label><div class="inline"><input class="num" data-ov="mc:cambio"><span class="unit">R$/US$</span></div></div>
+            <div class="field"><label>Prêmio</label><div class="inline"><input class="num" data-ov="mc:premio"><span class="unit">US$/t</span></div></div>
+            <div class="field"><label>CPE</label><div class="inline"><input class="num" data-ov="mc:porto"><span class="unit">US$/t</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card grid-card">
+        <div class="card-head">
+          <svg class="ico" viewBox="0 0 20 20"><rect x="3" y="2" width="14" height="16" rx="2"/><path d="M6 7h8M6 10h8M6 13h5"/></svg>
+          Fixação / Travamento Componente
+          <span class="filter" title="Filtrar"><svg viewBox="0 0 16 16"><path d="M2 3h12L9.5 8.5V13l-3 1.5V8.5z"/></svg></span>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr>
+              <th>Data</th><th>Hora</th><th>Componente</th>
+              <th class="r">Quantidade</th><th class="r">Cotação</th><th>Usuário</th>
+            </tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <div class="hint" id="hint">Todas as células são editáveis. Clique na linha para selecionar e use Excluir.</div>
+          <div class="empty" id="empty">
+            <div>
+              <svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></svg>
+              <div>Nenhuma informação encontrada.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="incluir" type="button"><svg viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3zM8 7v4M6 9h4"/></svg>Incluir</button>
+        <button class="btn" id="excluir" type="button"><svg viewBox="0 0 16 16"><path d="M3 2h7l3 3v9H3zM6 7l4 4M10 7l-4 4"/></svg>Excluir</button>
+        <button class="btn" type="button"><svg viewBox="0 0 16 16"><path d="M4 6V2h8v4M4 12H2V6h12v6h-2M4 9h8v5H4z"/></svg>Imprimir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="status">
+    <span>Contrato de: <input value="Venda" style="width:70px;font-weight:600;border-color:transparent;background:transparent;padding:2px 4px"></span>
+    <span>Ordem: <input value="00007" style="width:64px;font-weight:600;border-color:transparent;background:transparent;padding:2px 4px"></span>
+    <span class="grow"><span class="dot"></span>Status do Lançamento:
+      <select style="width:120px;font-weight:600;border-color:transparent;background:transparent">
+        <option>Liberado</option><option>Pendente</option><option>Cancelado</option></select></span>
+  </div>
+</div>
+
+<script>
+  const comps = [
+    { key: 'chicago', nome: 'Chicago (CBOT)', unit: 'US$/t', rotulo: 'Travamento Chicago', icon: '<path d="M3 16V8M8 16V4M13 16v-6M18 16V6"/>' },
+    { key: 'cambio',  nome: 'Câmbio',          unit: 'R$/US$', rotulo: 'Travamento Câmbio',  icon: '<circle cx="10" cy="10" r="7"/><path d="M10 6v8M12 8H9a1.5 1.5 0 0 0 0 3h2a1.5 1.5 0 0 1 0 3H8"/>' },
+    { key: 'premio',  nome: 'Prêmio',          unit: 'US$/t', rotulo: 'Travamento Prêmio',  icon: '<path d="M3 13l2-6h10l2 6H3zM6 16h8"/>' },
+    { key: 'porto',   nome: 'Custo portuário (Elevação)', unit: 'US$/t', rotulo: 'Travamento custo portuário', icon: '<path d="M10 3v10M6 9l4 4 4-4M3 16h14"/>' }
+  ];
+  const exemplo = [
+    { d: '12/02/2025', h: '09:41', c: 'chicago', q: 400000, p: 402.50, u: 'SUPERVISOR' },
+    { d: '14/02/2025', h: '14:07', c: 'chicago', q: 200000, p: 408.00, u: 'SUPERVISOR' },
+    { d: '17/02/2025', h: '10:22', c: 'cambio',  q: 400000, p: 5.7840, u: 'SUPERVISOR' },
+    { d: '18/02/2025', h: '16:55', c: 'premio',  q: 1000000, p: 25.00, u: 'SUPERVISOR' }
+  ];
+
+  let total = 1000000;
+  let fixacoes = [];
+  let seq = 0;
+  let sel = null;
+  // valores digitados à mão que valem no lugar dos calculados
+  const ov = { q: {}, m: {}, mc: {}, preco: null };
+
+  const f2 = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const f4 = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+  const fmtCot = (k, n) => k === 'cambio' ? f4(n) : f2(n);
+  const parse = s => {
+    const n = parseFloat(String(s).replace(/\./g, '').replace(',', '.'));
+    return isNaN(n) ? 0 : n;
+  };
+  const agora = () => {
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    return { d: `${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()}`, h: `${p(d.getHours())}:${p(d.getMinutes())}` };
+  };
+
+  // ---- cálculo: automático (do grid) ou manual (ov) ----
+  const autoQ = k => fixacoes.filter(x => x.c === k).reduce((s, x) => s + x.q, 0);
+  const autoMedia = k => {
+    const l = fixacoes.filter(x => x.c === k && x.p > 0);
+    const q = l.reduce((s, x) => s + x.q, 0);
+    return q ? l.reduce((s, x) => s + x.q * x.p, 0) / q : null;
+  };
+  const effQ  = k => k in ov.q  ? ov.q[k]  : autoQ(k);
+  const effM  = k => k in ov.m  ? ov.m[k]  : autoMedia(k);
+  const effMC = k => k in ov.mc ? ov.mc[k] : effM(k);
+  const precoAuto = () => {
+    if (!comps.every(c => effQ(c.key) >= total && effMC(c.key) !== null)) return 0;
+    return (effMC('chicago') + effMC('premio') + effMC('porto')) * effMC('cambio');
+  };
+  const effPreco = () => ov.preco !== null ? ov.preco : precoAuto();
+
+  // cada input com data-ov="tipo:componente" sabe ler, formatar e gravar seu valor
+  function info(el) {
+    const [kind, k] = el.dataset.ov.split(':');
+    switch (kind) {
+      case 'total': return { v: total, isOv: false, fmt: f2 };
+      case 'q':     return { v: effQ(k), isOv: k in ov.q, fmt: f2 };
+      case 'm':     return { v: effM(k), isOv: k in ov.m, fmt: n => fmtCot(k, n) };
+      case 'mc':    return { v: effMC(k), isOv: k in ov.mc, fmt: n => fmtCot(k, n) };
+      case 'preco': return { v: effPreco(), isOv: ov.preco !== null, fmt: f2 };
+    }
+  }
+  function store(el) {
+    const [kind, k] = el.dataset.ov.split(':');
+    const txt = el.value.trim();
+    if (kind === 'total') { total = parse(txt); return; }
+    if (kind === 'preco') { ov.preco = txt === '' ? null : parse(txt); return; }
+    if (txt === '') delete ov[kind][k]; else ov[kind][k] = parse(txt);
+  }
+
+  // ---- blocos (criados uma vez; só os valores mudam) ----
+  function buildBlocks() {
+    document.getElementById('blocks').innerHTML = comps.map(c => `
+      <div class="card" data-k="${c.key}">
+        <div class="card-head">
+          <svg class="ico" viewBox="0 0 20 20">${c.icon}</svg>${c.nome}<span class="chev">⌃</span>
+        </div>
+        <div class="card-body">
+          <div class="comp">
+            <div class="lines">
+              <div class="l"><label>Qtde Produto</label>
+                <div class="inline"><span class="unit">KG</span><input class="num" data-ov="total"></div></div>
+              <div class="l"><label>Qtde Travada</label>
+                <div class="inline"><span class="unit">KG</span><input class="num" data-ov="q:${c.key}"></div></div>
+              <div class="l"><label>${c.rotulo}</label>
+                <div class="inline"><input class="num" data-ov="m:${c.key}"><span class="unit">${c.unit}</span></div></div>
+            </div>
+            <div class="donut"><span></span></div>
+            <div class="stats">
+              <div><span class="k">Fixado:</span> <b data-s="fix"></b></div>
+              <div><span class="k">Pendente:</span> <b data-s="pen"></b></div>
+              <div><span class="k">Total:</span> <b data-s="tot"></b></div>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  // `skip` = input que está sendo digitado (não reescrever o texto dele)
+  function refresh(skip) {
+    document.querySelectorAll('[data-ov]').forEach(el => {
+      const i = info(el);
+      el.classList.toggle('ov', i.isOv);
+      if (el !== skip) el.value = i.v === null ? '' : i.fmt(i.v);
+    });
+    document.querySelectorAll('#blocks [data-k]').forEach(card => {
+      const q = effQ(card.dataset.k);
+      const pct = total > 0 ? Math.min(100, Math.round(q / total * 100)) : 0;
+      const d = card.querySelector('.donut');
+      d.style.setProperty('--p', pct);
+      d.classList.toggle('full', pct === 100);
+      d.firstElementChild.textContent = pct + '%';
+      card.querySelector('[data-s=fix]').textContent = f2(q);
+      card.querySelector('[data-s=pen]').textContent = f2(Math.max(0, total - q));
+      card.querySelector('[data-s=tot]').textContent = f2(total);
+    });
+  }
+
+  // ---- grid ----
+  function renderRows() {
+    document.getElementById('rows').innerHTML = fixacoes.map(x => `
+      <tr data-id="${x.id}" class="${x.id === sel ? 'sel' : ''}">
+        <td class="d"><input data-f="d" value="${x.d}"></td>
+        <td class="h"><input data-f="h" value="${x.h}"></td>
+        <td><select data-f="c">${comps.map(c =>
+          `<option value="${c.key}" ${c.key === x.c ? 'selected' : ''}>${c.nome.split(' (')[0]}</option>`).join('')}</select></td>
+        <td class="r"><input class="num" data-f="q" value="${f2(x.q)}"></td>
+        <td class="r"><input class="num ${x.p > 0 ? '' : 'vazio'}" data-f="p" value="${x.p > 0 ? fmtCot(x.c, x.p) : ''}" placeholder="0,00"></td>
+        <td class="u"><input data-f="u" value="${x.u}"></td>
+      </tr>`).join('');
+    document.getElementById('empty').style.display = fixacoes.length ? 'none' : 'grid';
+    document.getElementById('hint').style.display = fixacoes.length ? 'block' : 'none';
+  }
+
+  const rowsEl = document.getElementById('rows');
+  const rowOf = el => fixacoes.find(x => x.id === Number(el.closest('tr').dataset.id));
+
+  rowsEl.addEventListener('input', e => {
+    const x = rowOf(e.target), f = e.target.dataset.f;
+    if (f === 'q') x.q = parse(e.target.value);
+    else if (f === 'p') { x.p = parse(e.target.value); e.target.classList.toggle('vazio', !(x.p > 0)); }
+    else if (f !== 'c') x[f] = e.target.value;
+    refresh(null);
+  });
+  rowsEl.addEventListener('change', e => {
+    const x = rowOf(e.target), f = e.target.dataset.f;
+    if (f === 'c') { x.c = e.target.value; renderRows(); refresh(null); }
+    if (f === 'q') e.target.value = f2(x.q);
+    if (f === 'p' && x.p > 0) e.target.value = fmtCot(x.c, x.p);
+  });
+  rowsEl.addEventListener('click', e => {
+    const tr = e.target.closest('tr');
+    if (!tr) return;
+    sel = Number(tr.dataset.id);
+    rowsEl.querySelectorAll('tr').forEach(r => r.classList.toggle('sel', r === tr));
+  });
+
+  // ---- campos com data-ov (blocos, média, preço) ----
+  document.addEventListener('input', e => {
+    if (!e.target.dataset.ov) return;
+    store(e.target);
+    refresh(e.target);
+  });
+  document.addEventListener('change', e => {
+    if (e.target.dataset.ov) refresh(null);
+  });
+
+  // ---- botões ----
+  document.getElementById('incluir').addEventListener('click', () => {
+    const c = comps.find(c => effQ(c.key) < total) || comps[0];
+    const t = agora();
+    const x = { id: ++seq, d: t.d, h: t.h, c: c.key, q: Math.max(0, total - effQ(c.key)), p: 0, u: 'SUPERVISOR' };
+    fixacoes.push(x);
+    sel = x.id;
+    renderRows(); refresh(null);
+    rowsEl.querySelector(`tr[data-id="${x.id}"] input[data-f="p"]`).focus();
+  });
+
+  document.getElementById('excluir').addEventListener('click', () => {
+    if (sel === null) return;
+    fixacoes = fixacoes.filter(x => x.id !== sel);
+    sel = null;
+    renderRows(); refresh(null);
+  });
+
+  document.getElementById('auto').addEventListener('click', () => {
+    ov.q = {}; ov.m = {}; ov.mc = {}; ov.preco = null;
+    refresh(null);
+  });
+
+  const btn = document.getElementById('demo');
+  btn.addEventListener('click', () => {
+    sel = null;
+    fixacoes = fixacoes.length ? [] : exemplo.map(x => ({ ...x, id: ++seq }));
+    btn.textContent = fixacoes.length ? 'Ver tela vazia (como no sistema)' : 'Ver com dados de exemplo';
+    renderRows(); refresh(null);
+  });
+
+  buildBlocks();
+  renderRows();
+  refresh(null);
+</script>
+</body>
+</html>

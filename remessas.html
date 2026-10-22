@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup - Remessas</title>
+<style>
+  :root {
+    --green-900: #075c3a;
+    --green-700: #0b7a4b;
+    --green-600: #0f8d58;
+    --bg: #e6ebee;
+    --card: #f4f7f8;
+    --detail: #dfe8ec;
+    --line: #d3dce1;
+    --text: #1d2b33;
+    --muted: #5f7480;
+    --red: #c0392b;
+    --manual: #e0a63a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; font-size: 12.5px; color: var(--text); background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
+
+  .topbar { background: var(--green-700); color: #fff; height: 42px; display: flex; align-items: center; padding: 0 14px; gap: 40px; }
+  .brand { font-size: 19px; font-weight: 800; letter-spacing: -.3px; display: flex; align-items: center; gap: 8px; }
+  .brand i { width: 24px; height: 24px; border-radius: 50%; background: #fff; display: inline-grid; place-items: center; }
+  .brand i::after { content: ""; width: 12px; height: 12px; background: #f2c400; transform: rotate(45deg); border-radius: 2px; }
+  .nav { display: flex; gap: 40px; margin: 0 auto; font-weight: 600; font-size: 13px; padding-left: 120px; }
+  .icons { display: flex; gap: 18px; font-size: 15px; opacity: .95; }
+
+  .crumbs { background: #d4dcdf; display: flex; align-items: center; gap: 14px; padding: 8px 14px; min-height: 44px; }
+  .crumbs .path { display: flex; gap: 14px; align-items: center; }
+  .crumbs .path b { font-weight: 600; }
+  .crumbs .sp { margin-left: auto; display: flex; align-items: center; gap: 22px; }
+  .empresa { width: 190px; background: #e3e9eb; color: var(--muted); }
+  .farm { text-align: right; line-height: 1.15; }
+  .farm input { text-align: right; font-weight: 700; font-size: 13px; padding: 0; min-height: 0; width: 190px; }
+  .farm small input { font-weight: 400; font-size: 10.5px; width: 100px; }
+  .online { width: 9px; height: 9px; border-radius: 50%; background: #2fcf7a; }
+
+  input, select { font: inherit; color: var(--text); }
+  input[type=text], input:not([type]), select {
+    width: 100%; padding: 4px 6px; min-height: 24px; border: 1px solid transparent; border-radius: 3px; background: transparent;
+  }
+  input:not([type=checkbox]):hover, select:hover { border-color: #b4c2c9; background: #fff; }
+  input:not([type=checkbox]):focus, select:focus { outline: 2px solid #16a06a44; border-color: var(--green-600); background: #fff; }
+  input.num { text-align: right; }
+  input.ov { border-color: var(--manual) !important; background: #fff8e8 !important; }
+
+  main { padding: 16px 14px 90px; flex: 1; }
+  .search { display: flex; gap: 10px; justify-content: center; margin-bottom: 16px; }
+  .search button { width: 44px; border: 1px solid var(--line); border-radius: 4px; background: #e3e9eb; cursor: pointer; font-size: 14px; }
+  .search input { max-width: 420px; background: #e3e9eb !important; border: 1px solid var(--line); padding: 9px 12px; min-height: 40px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--card); }
+  .tbl { min-width: 1330px; }
+  .cols { display: grid; grid-template-columns: 34px 28px 84px 56px 50px 190px 104px 125px 125px 116px 100px 106px 106px 104px; align-items: center; }
+  .head { padding: 10px 8px; font-weight: 600; color: #33444e; border-bottom: 1px solid var(--line); }
+  .head .r, .main .r { text-align: right; }
+  .main { padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  .rem:last-child .main { border-bottom: none; }
+  .tg { width: 22px; height: 22px; border: 1px solid #aab8c0; border-radius: 4px; background: #fff; cursor: pointer; line-height: 1; padding: 0; font-weight: 700; }
+  input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--green-700); cursor: pointer; }
+  .conta { display: flex; align-items: center; gap: 6px; }
+  .conta i { flex: none; width: 15px; height: 15px; border: 2px solid #1b4fa0; background: #f2c400; border-radius: 3px; }
+  .money { display: flex; align-items: center; justify-content: flex-end; }
+  .money span { color: var(--muted); }
+  .money input { width: 82px; }
+  .pill { border-radius: 14px !important; padding: 3px 8px !important; font-weight: 600; text-align: center; min-height: 22px !important; }
+  .st-Pendente { background: #fde7d3 !important; color: #b4590d; }
+  .st-Aprovada { background: #d5f0e1 !important; color: #0b6a40; }
+  .st-Recusada { background: #f8d9d5 !important; color: #a1281d; }
+
+  .detail { background: var(--detail); padding: 12px 12px 14px 56px; border-bottom: 1px solid var(--line); }
+  .dhead { display: flex; gap: 40px; margin-bottom: 10px; }
+  .dhead label { display: block; font-size: 10.5px; color: var(--muted); padding-left: 6px; }
+  .dhead input { font-weight: 700; font-size: 13px; width: 150px; }
+  .itens { background: var(--card); border: 1px solid var(--line); border-radius: 5px; overflow-x: auto; }
+  table { width: 100%; min-width: 1180px; border-collapse: collapse; }
+  th { text-align: left; font-weight: 600; font-size: 12px; padding: 7px 4px; color: #33444e; border-bottom: 1px solid var(--line); }
+  td { padding: 2px 2px; border-bottom: 1px solid #e4eaed; }
+  tr:last-child td { border-bottom: none; }
+  th.r { text-align: right; }
+  td input { padding: 4px 4px; }
+  .x { border: none; background: none; color: #a1281d; cursor: pointer; font-size: 14px; opacity: .55; }
+  .x:hover { opacity: 1; }
+  .vazio { padding: 16px; text-align: center; color: var(--muted); }
+  .additem { margin-top: 8px; border: 1px dashed #92a6af; background: transparent; border-radius: 4px; padding: 5px 12px; cursor: pointer; color: var(--green-900); font: inherit; font-weight: 600; }
+  .additem:hover { background: #fff; }
+
+  .count { text-align: center; color: var(--muted); margin-top: 14px; font-size: 11.5px; }
+  .tools { display: flex; gap: 14px; justify-content: center; align-items: center; margin-top: 10px; color: var(--muted); font-size: 11.5px; }
+  .tools button { font: inherit; border: 1px solid #aab8c0; background: #fff; border-radius: 4px; padding: 4px 12px; cursor: pointer; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border: 1px solid var(--manual); background: #fff8e8; border-radius: 2px; vertical-align: -2px; margin-right: 4px; }
+
+  .footer { position: fixed; right: 0; bottom: 0; left: 0; padding: 14px 18px; display: flex; justify-content: flex-end; gap: 12px; pointer-events: none; }
+  .btn { pointer-events: auto; padding: 10px 24px; border-radius: 5px; border: none; color: #fff; font: inherit; font-weight: 700; font-size: 13.5px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+  .btn.rec { background: var(--red); } .btn.apr { background: var(--green-700); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span>ControlSoft</span><i></i></div>
+  <div class="nav"><span>Fiscal ⌄</span><span>Gestão ⌄</span></div>
+  <div class="icons"><span>◎</span><span>⚙</span><span>▭</span><span>☼</span><span>▭</span></div>
+</div>
+
+<div class="crumbs">
+  <div class="path"><span>Página Inicial</span><span>›</span><b>Remessas</b></div>
+  <div class="sp">
+    <select class="empresa"><option>▦ Grupo GA Arm e ...</option></select>
+    <div class="farm"><input value="FAZENDA GUARANTÃ"><small><input value="Versão 2026.4.1.6"></small></div>
+    <span class="online"></span>
+  </div>
+</div>
+
+<main>
+  <div class="search">
+    <button type="button" title="Filtros">☰</button>
+    <input id="q" placeholder="< Digite aqui sua pesquisa >">
+  </div>
+
+  <div class="scroll">
+    <div class="tbl">
+      <div class="cols head">
+        <span></span><input type="checkbox" id="all" title="Selecionar todas">
+        <span>ID Remessa</span><span>Tipo</span><span>Emp</span><span>Conta</span><span>Lançamento</span>
+        <span>Resp. Lanc.</span><span>Resp. Envio</span>
+        <span class="r">Valor Total</span><span class="r">Valor Pago</span><span class="r">Valor Rejeitado</span><span class="r">Valor Pendente</span><span>Status</span>
+      </div>
+      <div id="list"></div>
+    </div>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div class="tools">
+    <button id="nova" type="button">+ Nova remessa</button>
+    <button id="auto" type="button">Voltar totais ao automático</button>
+    <span class="legend"><i></i>valor manual (apague para voltar ao automático)</span>
+  </div>
+</main>
+
+<div class="footer">
+  <button class="btn rec" id="rec" type="button">✕ Recusar</button>
+  <button class="btn apr" id="apr" type="button">✓ Aprovar</button>
+</div>
+
+<script>
+  let seq = 0;
+  const NUM_R = new Set(['pago', 'rej', 'pen']);
+  const NUM_I = new Set(['orig', 'juros', 'multa', 'desc', 'cot']);
+  const STATUS = ['Pendente', 'Aprovada', 'Recusada'];
+
+  const f2 = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const f5 = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 5, maximumFractionDigits: 5 });
+  const fmtI = f => f === 'cot' ? f5 : f2;
+  const parse = s => {
+    const n = parseFloat(String(s).replace(/\./g, '').replace(',', '.'));
+    return isNaN(n) ? 0 : n;
+  };
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+  const remessas = [
+    {
+      id: ++seq, num: '000005', tipo: 'Pix', emp: '011', conta: 'AG 2006 CC 10672', lanc: '10/07/2026',
+      rl: '1 - Supervisor', re: '1 - Supervisor', base: 0, pago: 0, rej: 0, pen: 0, status: 'Pendente',
+      dtPag: '10/07/2026', cpf: '07786529985', open: true, checked: true, ovTotal: null,
+      items: [
+        { id: ++seq, tipo: 'PARC', nid: '070948', emp: '011', doc: '116-0',        desc: 'REF. A CONSÓRCIO GRUPO 2272 COTA 116-0', venc: '15/07/2026', pag: '10/07/2026', idx: 'R$', orig: 4500,     juros: 0, multa: 0, desconto: 0, cot: 1 },
+        { id: ++seq, tipo: 'PARC', nid: '070354', emp: '011', doc: '432-0',        desc: 'REF. A CONSÓRCIO GRUPO 2272 COTA 432-0', venc: '15/07/2026', pag: '10/07/2026', idx: 'R$', orig: 4500,     juros: 0, multa: 0, desconto: 0, cot: 1 },
+        { id: ++seq, tipo: 'PARC', nid: '071970', emp: '011', doc: 'C02032675-7',  desc: 'REF.A COMPRA DE ESCARIFICADOR E SEMEA...', venc: '15/07/2026', pag: '10/07/2026', idx: 'R$', orig: 66785.72, juros: 0, multa: 0, desconto: 0, cot: 1 }
+      ]
+    },
+    {
+      id: ++seq, num: '000004', tipo: 'Pix', emp: '011', conta: 'AG 2006 CC 10672', lanc: '10/07/2026',
+      rl: '1 - Supervisor', re: '1 - Supervisor', base: 13500, pago: 0, rej: 0, pen: 0, status: 'Pendente',
+      dtPag: '10/07/2026', cpf: '', open: false, checked: false, ovTotal: null, items: []
+    }
+  ];
+
+  // total da remessa: manual > soma dos documentos > valor base (remessa sem documentos carregados)
+  const itemTotal = i => (i.orig + i.juros + i.multa - i.desconto) * i.cot;
+  const total = r => r.ovTotal !== null ? r.ovTotal : r.items.length ? r.items.reduce((s, i) => s + itemTotal(i), 0) : r.base;
+
+  const list = document.getElementById('list');
+  const remOf = el => remessas.find(r => r.id === Number(el.closest('[data-rid]').dataset.rid));
+  const itOf = (el, r) => r.items.find(i => i.id === Number(el.closest('tr').dataset.iid));
+
+  const money = (f, v, extra = '') => `<div class="money"><span>R$</span><input class="num" data-f="${f}" value="${f2(v)}" ${extra}></div>`;
+
+  function visible() {
+    const q = document.getElementById('q').value.trim().toLowerCase();
+    if (!q) return remessas;
+    return remessas.filter(r => JSON.stringify([r.num, r.tipo, r.emp, r.conta, r.lanc, r.rl, r.re, r.status, r.cpf,
+      r.items.map(i => [i.doc, i.desc, i.nid])]).toLowerCase().includes(q));
+  }
+
+  function render() {
+    list.innerHTML = visible().map(r => `
+      <div class="rem" data-rid="${r.id}">
+        <div class="cols main">
+          <button class="tg" data-a="toggle" type="button">${r.open ? '−' : '+'}</button>
+          <input type="checkbox" data-a="chk" ${r.checked ? 'checked' : ''}>
+          <input data-f="num" value="${esc(r.num)}">
+          <input data-f="tipo" value="${esc(r.tipo)}">
+          <input data-f="emp" value="${esc(r.emp)}">
+          <div class="conta"><i></i><input data-f="conta" value="${esc(r.conta)}"></div>
+          <input data-f="lanc" value="${esc(r.lanc)}">
+          <input data-f="rl" value="${esc(r.rl)}">
+          <input data-f="re" value="${esc(r.re)}">
+          ${money('total', total(r))}
+          ${money('pago', r.pago)}
+          ${money('rej', r.rej)}
+          ${money('pen', r.pen)}
+          <select data-f="status" class="pill st-${r.status}">${STATUS.map(s => `<option ${s === r.status ? 'selected' : ''}>${s}</option>`).join('')}</select>
+        </div>
+        ${r.open ? detail(r) : ''}
+      </div>`).join('');
+    refresh(null);
+  }
+
+  function detail(r) {
+    const rows = r.items.map(i => `
+      <tr data-iid="${i.id}">
+        <td style="width:62px"><input data-f="tipo" value="${esc(i.tipo)}"></td>
+        <td style="width:84px"><input data-f="nid" value="${esc(i.nid)}"></td>
+        <td style="width:52px"><input data-f="emp" value="${esc(i.emp)}"></td>
+        <td style="width:120px"><input data-f="doc" value="${esc(i.doc)}"></td>
+        <td><input data-f="desc" value="${esc(i.desc)}"></td>
+        <td style="width:98px"><input data-f="venc" value="${esc(i.venc)}"></td>
+        <td style="width:98px"><input data-f="pag" value="${esc(i.pag)}"></td>
+        <td style="width:50px"><input data-f="idx" value="${esc(i.idx)}"></td>
+        <td style="width:104px"><input class="num" data-f="orig" value="${f2(i.orig)}"></td>
+        <td style="width:80px"><input class="num" data-f="juros" value="${f2(i.juros)}"></td>
+        <td style="width:80px"><input class="num" data-f="multa" value="${f2(i.multa)}"></td>
+        <td style="width:90px"><input class="num" data-f="desconto" value="${f2(i.desconto)}"></td>
+        <td style="width:92px"><input class="num" data-f="cot" value="${f5(i.cot)}"></td>
+        <td style="width:28px"><button class="x" data-a="delitem" type="button" title="Remover documento">✕</button></td>
+      </tr>`).join('');
+    return `
+      <div class="detail">
+        <div class="dhead">
+          <div><label>Data Pagamento</label><input data-f="dtPag" value="${esc(r.dtPag)}"></div>
+          <div><label>CPF/CNPJ</label><input data-f="cpf" value="${esc(r.cpf)}"></div>
+        </div>
+        <div class="itens">
+          <table>
+            <thead><tr><th>Tipo</th><th>ID</th><th>Emp</th><th>Documento</th><th>Descritivo</th><th>Vencimento</th><th>Pagamento</th><th>IDX</th>
+              <th class="r">Valor Original</th><th class="r">Juros</th><th class="r">Multa</th><th class="r">Desconto</th><th class="r">Cotação</th><th></th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          ${r.items.length ? '' : '<div class="vazio">Nenhum documento carregado nesta remessa.</div>'}
+        </div>
+        <button class="additem" data-a="additem" type="button">+ Documento</button>
+      </div>`;
+  }
+
+  // `skip` = campo sendo digitado (não reescrever o texto dele)
+  function refresh(skip) {
+    remessas.forEach(r => {
+      const el = list.querySelector(`[data-rid="${r.id}"] .main [data-f=total]`);
+      if (!el) return;
+      el.classList.toggle('ov', r.ovTotal !== null);
+      if (el !== skip) el.value = f2(total(r));
+    });
+    const n = visible().length, sel = remessas.filter(r => r.checked).length;
+    document.getElementById('count').textContent = 'Encontrados: ' + n;
+    document.getElementById('rec').disabled = document.getElementById('apr').disabled = !sel;
+    document.getElementById('rec').textContent = '✕ Recusar' + (sel ? ` (${sel})` : '');
+    document.getElementById('apr').textContent = '✓ Aprovar' + (sel ? ` (${sel})` : '');
+    document.getElementById('all').checked = n > 0 && visible().every(r => r.checked);
+  }
+
+  list.addEventListener('input', e => {
+    const t = e.target, f = t.dataset.f;
+    if (!f) return;
+    const r = remOf(t);
+    if (t.closest('tr[data-iid]')) {
+      const i = itOf(t, r);
+      i[f] = NUM_I.has(f) ? parse(t.value) : t.value;
+    } else if (f === 'total') {
+      r.ovTotal = t.value.trim() === '' ? null : parse(t.value);
+    } else if (f !== 'status') {
+      r[f] = NUM_R.has(f) ? parse(t.value) : t.value;
+    }
+    refresh(t);
+  });
+
+  list.addEventListener('change', e => {
+    const t = e.target, f = t.dataset.f, r = remOf(t);
+    if (t.dataset.a === 'chk') { r.checked = t.checked; refresh(null); return; }
+    if (f === 'status') { r.status = t.value; render(); return; }
+    if (t.closest('tr[data-iid]') && NUM_I.has(f)) t.value = fmtI(f)(itOf(t, r)[f]);
+    else if (NUM_R.has(f)) t.value = f2(r[f]);
+    refresh(null);
+  });
+
+  list.addEventListener('click', e => {
+    const b = e.target.closest('[data-a]');
+    if (!b || b.type === 'checkbox') return;
+    const r = remOf(b), a = b.dataset.a;
+    if (a === 'toggle') { r.open = !r.open; render(); }
+    if (a === 'additem') {
+      r.items.push({ id: ++seq, tipo: 'PARC', nid: '', emp: r.emp, doc: '', desc: '', venc: '', pag: r.dtPag, idx: 'R$',
+        orig: 0, juros: 0, multa: 0, desconto: 0, cot: 1 });
+      render();
+      const rows = list.querySelectorAll(`[data-rid="${r.id}"] tbody tr`);
+      rows[rows.length - 1].querySelector('[data-f=doc]').focus();
+    }
+    if (a === 'delitem') { r.items = r.items.filter(i => i.id !== Number(b.closest('tr').dataset.iid)); render(); }
+  });
+
+  document.getElementById('q').addEventListener('input', render);
+  document.getElementById('all').addEventListener('change', e => {
+    visible().forEach(r => r.checked = e.target.checked);
+    render();
+  });
+  const setStatus = s => { remessas.filter(r => r.checked).forEach(r => r.status = s); render(); };
+  document.getElementById('apr').addEventListener('click', () => setStatus('Aprovada'));
+  document.getElementById('rec').addEventListener('click', () => setStatus('Recusada'));
+  document.getElementById('auto').addEventListener('click', () => { remessas.forEach(r => r.ovTotal = null); refresh(null); });
+  document.getElementById('nova').addEventListener('click', () => {
+    const next = String(Math.max(...remessas.map(r => parseInt(r.num, 10) || 0)) + 1).padStart(6, '0');
+    remessas.unshift({ id: ++seq, num: next, tipo: 'Pix', emp: '011', conta: 'AG 2006 CC 10672', lanc: new Date().toLocaleDateString('pt-BR'),
+      rl: '1 - Supervisor', re: '1 - Supervisor', base: 0, pago: 0, rej: 0, pen: 0, status: 'Pendente',
+      dtPag: new Date().toLocaleDateString('pt-BR'), cpf: '', open: true, checked: false, ovTotal: null, items: [] });
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
